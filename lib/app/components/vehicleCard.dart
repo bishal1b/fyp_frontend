@@ -1,16 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:rental/app/models/vehicle.dart';
 import 'package:rental/app/routes/app_pages.dart';
 import 'package:rental/utils/constant.dart';
+import 'package:rental/utils/memory.dart';
 
 class VehicleCard extends StatelessWidget {
   final Vehicle vehicle;
   const VehicleCard({super.key, required this.vehicle});
 
-  @override
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -35,14 +33,23 @@ class VehicleCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image on the left side
-            Image.network(
-              getImageUrl(vehicle.imageUrl ?? ''),
-              height: 100,
-              width: Get.width * 0.4,
-              fit: BoxFit.cover,
+            // Image on the left
+            Hero(
+              tag: vehicle.vehicleId ?? '',
+              child: Image.network(
+                getImageUrl(
+                  vehicle.imageUrl ?? '',
+                ),
+                height: 100,
+                width: Get.width * 0.4,
+                fit: BoxFit.fill, // Adjust the fit property
+              ),
             ),
-            const SizedBox(width: 10),
+
+            const SizedBox(
+              width: 10,
+            ),
+            // Details on the right
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +61,9 @@ class VehicleCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
                       Container(
@@ -69,7 +78,7 @@ class VehicleCard extends StatelessWidget {
                         child: Text(
                           vehicle.category ?? '',
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 10,
                             color: Colors.white,
                           ),
                         ),
@@ -88,17 +97,56 @@ class VehicleCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Text(
-                    "Rs.${vehicle.perDayPrice ?? ''} /per day",
+                    "Model:  ${vehicle.model ?? ''}",
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Rs. ${vehicle.perDayPrice ?? ''} per day",
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Visibility(
+                        visible: Memory.getRole() == 'admin',
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.EDIT_VEHICLE,
+                                arguments: vehicle);
+                          },
+                          child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color(0xFF2E9E95),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                              onPressed: () {
+                                Get.toNamed(Routes.EDIT_VEHICLE,
+                                    arguments: vehicle);
+                              },
+                              child: Text('Edit',
+                                  style: TextStyle(color: Colors.white))),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),

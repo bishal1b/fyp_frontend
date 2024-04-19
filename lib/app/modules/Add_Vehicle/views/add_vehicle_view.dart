@@ -44,6 +44,24 @@ class AddVehicleView extends GetView<AddVehicleController> {
                     ),
                     TextFormField(
                       textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Plate Number is required';
+                        }
+                        return null;
+                      },
+                      controller: controller.plateNumberController,
+                      decoration: InputDecoration(
+                        labelText: 'Plate Number',
+                        hintText: 'Enter vehicle plate number',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      textInputAction: TextInputAction.next,
                       minLines: 3,
                       maxLines: 5,
                       maxLength: 2500,
@@ -92,10 +110,10 @@ class AddVehicleView extends GetView<AddVehicleController> {
                         }
                         return null;
                       },
-                      controller: controller.noOfSeatsController,
+                      controller: controller.modelController,
                       decoration: InputDecoration(
-                        labelText: 'Vehicle No Of Seats',
-                        hintText: 'Enter vehicle no of seats',
+                        labelText: 'Model',
+                        hintText: 'Enter vehicle model',
                         border: OutlineInputBorder(),
                       ),
                     ),

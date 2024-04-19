@@ -45,13 +45,27 @@ class Payment {
   final String? bookingId;
   final String? amount;
   final String? mode;
-  final String? createdAt;
+  final DateTime? createdAt;
   final String? otherDetails;
   final String? paymentBy;
+  final String? vehicleId;
+  final String? total;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final String? status;
+  final String? bookedBy;
   final String? email;
   final String? fullName;
   final String? address;
   final String? contact;
+  final String? title;
+  final String? description;
+  final String? noOfSeats;
+  final String? imageUrl;
+  final String? category;
+  final String? addedBy;
+  final String? rating;
+  final String? perDayPrice;
 
   Payment({
     this.paymentId,
@@ -61,10 +75,24 @@ class Payment {
     this.createdAt,
     this.otherDetails,
     this.paymentBy,
+    this.vehicleId,
+    this.total,
+    this.startDate,
+    this.endDate,
+    this.status,
+    this.bookedBy,
     this.email,
     this.fullName,
     this.address,
     this.contact,
+    this.title,
+    this.description,
+    this.noOfSeats,
+    this.imageUrl,
+    this.category,
+    this.addedBy,
+    this.rating,
+    this.perDayPrice,
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
@@ -72,13 +100,32 @@ class Payment {
         bookingId: json["booking_id"],
         amount: json["amount"],
         mode: json["mode"],
-        createdAt: json["created_at"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
         otherDetails: json["other_details"],
         paymentBy: json["payment_by"],
+        vehicleId: json["vehicle_id"],
+        total: json["total"],
+        startDate: json["start_date"] == null
+            ? null
+            : DateTime.parse(json["start_date"]),
+        endDate:
+            json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
+        status: json["status"],
+        bookedBy: json["booked_by"],
         email: json["email"],
         fullName: json["full_name"],
         address: json["address"],
         contact: json["contact"],
+        title: json["title"],
+        description: json["description"],
+        noOfSeats: json["no_of_seats"],
+        imageUrl: json["image_url"],
+        category: json["category"],
+        addedBy: json["added_by"],
+        rating: json["rating"],
+        perDayPrice: json["per_day_price"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -86,12 +133,26 @@ class Payment {
         "booking_id": bookingId,
         "amount": amount,
         "mode": mode,
-        "created_at": createdAt,
+        "created_at": createdAt?.toIso8601String(),
         "other_details": otherDetails,
         "payment_by": paymentBy,
+        "vehicle_id": vehicleId,
+        "total": total,
+        "start_date": startDate?.toIso8601String(),
+        "end_date": endDate?.toIso8601String(),
+        "status": status,
+        "booked_by": bookedBy,
         "email": email,
         "full_name": fullName,
         "address": address,
         "contact": contact,
+        "title": title,
+        "description": description,
+        "no_of_seats": noOfSeats,
+        "image_url": imageUrl,
+        "category": category,
+        "added_by": addedBy,
+        "rating": rating,
+        "per_day_price": perDayPrice,
       };
 }

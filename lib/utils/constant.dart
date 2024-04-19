@@ -1,11 +1,31 @@
-const ipAddress = '192.168.1.90';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:rental/app/models/device_model.dart';
+
+const ipAddress = '192.168.1.64';
 
 String getImageUrl(String image) {
   return "http://$ipAddress/rental/$image";
 }
 
-// 192.168.254.2 home
+String baseUrl =
+    'https://geomate.telematics.com.np/api/api.php?api=user&ver=1.0&key=41E4BD6FF302428E467392E35F4D16FA&cmd=USER_GET_OBJECTS';
 
-// 172.16.16.143 college
-
-// 192.168.1.90 
+class RentalDevicesRemoteSource {
+  Future<List<DeviceModel>?> getDevices() async {
+    var url = Uri.parse(baseUrl);
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        List<dynamic> list = jsonDecode(response.body);
+        return list.map((e) => DeviceModel.fromJson(e)).toList();
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+}

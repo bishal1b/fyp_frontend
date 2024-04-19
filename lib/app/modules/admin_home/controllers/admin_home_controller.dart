@@ -1,23 +1,45 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rental/app/models/stats.dart';
+import 'package:rental/utils/constant.dart';
+import 'package:rental/utils/memory.dart';
+
+import 'package:http/http.dart' as http;
 
 class AdminHomeController extends GetxController {
-  //TODO: Implement AdminHomeController
+  StatsResponse? statsResponse;
+  var selectedDate = TextEditingController();
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    getStats();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  Future<void> getStats({DateTime? date}) async {
+    try {
+      var url = Uri.http(ipAddress, 'rental/getStats');
+      var response = await http.post(url, body: {
+        'token': Memory.getToken(),
+        'month': date != null ? date.month.toString() : 'null',
+        'year': date != null ? date.year.toString() : 'null',
+      });
+      print(response.body);
+      print(response.body);
+      var result = statsResponseFromJson(response.body);
 
-  @override
-  void onClose() {
-    super.onClose();
+      if (result.success!) {
+        statsResponse = result;
+        update();
+      }
+    } catch (e) {
+      print(e);
+      Get.snackbar(
+        'Error',
+        'Failed to get stats',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
-
-  void increment() => count.value++;
 }

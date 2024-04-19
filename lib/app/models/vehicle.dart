@@ -42,60 +42,76 @@ class VehicleResponse {
 
 class Vehicle {
   final String? vehicleId;
+  final dynamic plateNumber;
   final String? title;
   final String? description;
-  final String? perDayPrice;
+  final String? model;
   final String? imageUrl;
-  final String? addedBy;
   final String? category;
+  final String? addedBy;
   final String? rating;
-  final String? noOfSeats;
+  final String? perDayPrice;
   final String? categoryId;
+  final String? isDeleted;
   final String? email;
   final String? fullName;
+  final String? address;
+  final String? contact;
 
   Vehicle({
     this.vehicleId,
+    this.plateNumber,
     this.title,
     this.description,
-    this.perDayPrice,
+    this.model,
     this.imageUrl,
-    this.addedBy,
     this.category,
+    this.addedBy,
     this.rating,
-    this.noOfSeats,
+    this.perDayPrice,
     this.categoryId,
+    this.isDeleted,
     this.email,
     this.fullName,
+    this.address,
+    this.contact,
   });
 
   factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
         vehicleId: json["vehicle_id"],
+        plateNumber: json["plate_number"],
         title: json["title"],
         description: json["description"],
-        perDayPrice: json["per_day_price"],
+        model: json["model"],
         imageUrl: json["image_url"],
-        addedBy: json["added_by"],
         category: json["category"],
+        addedBy: json["added_by"],
         rating: json["rating"],
-        noOfSeats: json["no_of_seats"],
+        perDayPrice: json["per_day_price"],
         categoryId: json["category_id"],
+        isDeleted: json["is_deleted"],
         email: json["email"],
         fullName: json["full_name"],
+        address: json["address"],
+        contact: json["contact"],
       );
 
   Map<String, dynamic> toJson() => {
         "vehicle_id": vehicleId,
+        "plate_number": plateNumber,
         "title": title,
         "description": description,
-        "per_day_price": perDayPrice,
+        "model": model,
         "image_url": imageUrl,
-        "added_by": addedBy,
         "category": category,
+        "added_by": addedBy,
         "rating": rating,
-        "no_of_seats": noOfSeats,
+        "per_day_price": perDayPrice,
         "category_id": categoryId,
+        "is_deleted": isDeleted,
         "email": email,
         "full_name": fullName,
+        "address": address,
+        "contact": contact,
       };
 }

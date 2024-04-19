@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:rental/app/routes/app_pages.dart';
 import 'package:rental/utils/constant.dart';
@@ -9,13 +8,13 @@ import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Get.put(ProfileController());
+
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 234, 240, 235),
       appBar: AppBar(
-        // backgroundColor: Color(0xFF2E9E95),
         title: const Text('My Profile'),
         centerTitle: true,
       ),
@@ -29,123 +28,173 @@ class ProfileView extends GetView<ProfileController> {
 
           var user = controller.userResponse!.user!;
 
-          return Column(
-            children: [
-              const SizedBox(height: 30),
-              CircleAvatar(
-                backgroundColor: Color(0xFF2E9E95),
-                radius: 50,
-                child: user.imageUrl != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(60),
-                        child: Image.network(
-                          getImageUrl(user.imageUrl!),
-                          height: 120,
-                          width: 120,
-                          fit: BoxFit.cover,
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFF2E9E95), Color(0xFF8A2387)],
                         ),
-                      )
-                    : Text(
-                        user.fullName![0].toUpperCase(),
-                        style:
-                            const TextStyle(fontSize: 40, color: Colors.white),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
                       ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                user.fullName?.toUpperCase() ?? '',
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                user.email!,
-                style: const TextStyle(fontSize: 18),
-              ),
-              const SizedBox(height: 40),
-              ListTile(
-                onTap: () {
-                  Get.toNamed(Routes.BOOKINGS);
-                },
-                title: const Text("My Bookings"),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.book_online),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(75),
+                      child: user.imageUrl != null
+                          ? Image.network(
+                              getImageUrl(user.imageUrl!),
+                              height: 150,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            )
+                          : Text(
+                              user.fullName![0].toUpperCase(),
+                              style:
+                                  TextStyle(fontSize: 60, color: Colors.white),
+                            ),
+                    ),
+                  ],
                 ),
-              ),
-              ListTile(
-                onTap: () {
-                  Get.toNamed(Routes.PAYMENTS);
-                },
-                title: const Text("Payments"),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.payment),
+                SizedBox(height: 20),
+                Text(
+                  user.fullName?.toUpperCase() ?? '',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87),
                 ),
-              ),
-              ListTile(
-                title: Text("Change Password"),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.change_circle),
+                SizedBox(height: 10),
+                Text(
+                  user.email!,
+                  style: TextStyle(fontSize: 18, color: Colors.black54),
                 ),
-              ),
-              ListTile(
-                onTap: () {
-                  Get.toNamed(Routes.EDIT_PROFILE, arguments: user);
-                },
-                title: Text("Edit Profile"),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.account_box),
+                SizedBox(height: 40),
+                Visibility(
+                  visible: Memory.getRole() == 'admin',
+                  child: ProfileMenuItem(
+                    onTap: () => Get.toNamed(Routes.GPS_TRACKING),
+                    icon: Icons.track_changes_outlined,
+                    title: 'Track Vehicle',
+                  ),
                 ),
-              ),
-              ListTile(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text("Logout Confirmation"),
-                        content: Text("Are you sure you want to logout?"),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Get.close(1);
-                              },
-                              child: Text("Cancel")),
-                          TextButton(
+                Visibility(
+                  visible: Memory.getRole() == 'admin',
+                  child: ProfileMenuItem(
+                    onTap: () => Get.toNamed(Routes.ADMIN_CATEGORY),
+                    icon: Icons.category,
+                    title: 'Vehicle Category',
+                  ),
+                ),
+                ProfileMenuItem(
+                  onTap: () => Get.toNamed(Routes.BOOKINGS),
+                  icon: Icons.book_online,
+                  title: 'Bookings',
+                ),
+                ProfileMenuItem(
+                  onTap: () => Get.toNamed(Routes.PAYMENTS),
+                  icon: Icons.payment,
+                  title: 'Payments',
+                ),
+                ProfileMenuItem(
+                  onTap: () {
+                    Get.toNamed(Routes.CHANGE_PASSWORD);
+                  },
+                  icon: Icons.change_circle,
+                  title: 'Change Password',
+                ),
+                ProfileMenuItem(
+                  onTap: () =>
+                      Get.toNamed(Routes.EDIT_PROFILE, arguments: user),
+                  icon: Icons.account_box, 
+                  title: 'Edit Profile',
+                ),
+                ProfileMenuItem(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Logout Confirmation"),
+                          content: Text("Are you sure you want to logout?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                            TextButton(
                               onPressed: () {
                                 Memory.clear();
                                 Get.offAllNamed(Routes.LOGIN);
                               },
-                              child: Text("Confirm"))
-                        ],
-                      );
-                    },
-                  );
-                },
-                title: Text("Logout"),
-                trailing: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.logout),
+                              child: Text("Confirm"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  icon: Icons.logout,
+                  title: 'Logout',
                 ),
-              )
-            ],
+              ],
+            ),
           );
         },
       ),
-      floatingActionButton: Visibility(
-        visible: Memory.getRole() == 'admin',
-        child: FloatingActionButton(
-          backgroundColor: Color(0xFF2E9E95),
-          onPressed: () {
-            Get.toNamed(Routes.ADD_VEHICLE);
-          },
-          child: const Icon(
-            Icons.add,
-          ),
-        ),
+    );
+  }
+}
+
+class ProfileMenuItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const ProfileMenuItem({
+    Key? key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      title: Text(
+        title,
+        style: TextStyle(
+            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+      ),
+      leading: Icon(
+        icon,
+        size: 24,
+        color: Color(0xFF2E9E95),
+      ),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        size: 16,
+        color: Color(0xFF2E9E95),
       ),
     );
   }

@@ -9,6 +9,7 @@ class AdminCategoryView extends GetView<AdminCategoryController> {
   @override
   Widget build(BuildContext context) {
     Get.put(AdminCategoryController());
+    Get.put(VehicleController());
     var categoryController = Get.put(AdminCategoryController());
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +49,7 @@ class AdminCategoryView extends GetView<AdminCategoryController> {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                Get.close(1);
+                                // Get.close(1);
                               },
                               child: Text('Cancel'),
                             ),

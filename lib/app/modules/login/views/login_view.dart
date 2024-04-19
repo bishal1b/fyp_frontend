@@ -37,7 +37,7 @@ class LoginView extends GetView<LoginController> {
                     controller: controller.emailController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(5)),
                       hintText: "Email",
                       labelText: "Email",
                     ),
@@ -52,35 +52,25 @@ class LoginView extends GetView<LoginController> {
                 SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                    controller: controller.passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      hintText: "Password",
-                      labelText: "Password",
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Field Required";
-                      }
-                      return null;
-                    }),
+                PasswordTextField(
+                  controller: controller.passwordController,
+                  label: 'New Password',
+                  hint: 'Enter your new password',
+                ),
                 SizedBox(
-                  height: 5,
+                  height: 2,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Forgot Password ?',
-                      style: TextStyle(
-                          color: Color(
-                            0xFF2E9E95,
-                          ),
-                          fontSize: 16),
-                    ),
+                    TextButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.FORGET_PASSWORD);
+                      },
+                      child: Text("Forgot password?",
+                          style: TextStyle(
+                              fontSize: 16, color: Color(0xFF2E9E95))),
+                    )
                   ],
                 ),
                 SizedBox(
@@ -125,6 +115,48 @@ class LoginView extends GetView<LoginController> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PasswordTextField extends StatefulWidget {
+  final TextEditingController? controller;
+  final String? label;
+  final String? hint;
+
+  const PasswordTextField({super.key, this.controller, this.label, this.hint});
+
+  @override
+  State<PasswordTextField> createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<PasswordTextField> {
+  var isVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Field Required";
+        }
+        return null;
+      },
+      obscureText: !isVisible,
+      controller: widget.controller,
+      decoration: InputDecoration(
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              isVisible = !isVisible;
+            });
+          },
+          child: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+        ),
+        labelText: widget.label ?? 'Password',
+        hintText: widget.hint ?? 'Enter your password',
+        border: OutlineInputBorder(),
       ),
     );
   }

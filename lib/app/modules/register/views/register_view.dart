@@ -164,28 +164,11 @@ class RegisterView extends GetView<RegisterController> {
                     SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller: controller.passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          hintText: "Password",
-                          labelText: "Password",
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please enter your password";
-                          } else if (value.length < 6) {
-                            return "Password must be at least 6 characters long";
-                          } else if (!RegExp(
-                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?/\\~-]).{6,}$')
-                              .hasMatch(value)) {
-                            return "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character";
-                          }
-                          return null;
-                        }),
+                    PasswordTextField(
+                      controller: controller.passwordController,
+                      label: 'Password',
+                      hint: 'Enter your password',
+                    ),
                     SizedBox(
                       height: 10,
                     ),
@@ -256,3 +239,52 @@ class RegisterView extends GetView<RegisterController> {
     );
   }
 }
+
+class PasswordTextField extends StatefulWidget {
+  final TextEditingController? controller;
+  final String? label;
+  final String? hint;
+
+  const PasswordTextField({super.key, this.controller, this.label, this.hint});
+
+  @override
+  State<PasswordTextField> createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<PasswordTextField> {
+  var isVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please enter your password";
+        } else if (value.length < 6) {
+          return "Password must be at least 6 characters long";
+        } else if (!RegExp(
+                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*()_+{}|:"<>?/\\~-]).{6,}$')
+            .hasMatch(value)) {
+          return "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character";
+        }
+        return null;
+      },
+      obscureText: !isVisible,
+      controller: widget.controller,
+      decoration: InputDecoration(
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              isVisible = !isVisible;
+            });
+          },
+          child: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+        ),
+        labelText: widget.label ?? 'Password',
+        hintText: widget.hint ?? 'Enter your password',
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+}
+

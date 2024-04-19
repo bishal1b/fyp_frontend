@@ -10,6 +10,8 @@ class HomeController extends GetxController {
   CategoriesResponse? categoriesResponse;
   VehicleResponse? vehicleResponse;
 
+  VehicleResponse? vehicleResponseTopRatings;
+
   int count = 0;
 
   void increment() {
@@ -22,6 +24,7 @@ class HomeController extends GetxController {
     super.onInit();
     getCategories();
     getVehicles();
+    // getTopRatings();
   }
 
   Future<void> getCategories() async {

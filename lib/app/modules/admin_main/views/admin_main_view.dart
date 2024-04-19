@@ -15,7 +15,7 @@ class AdminMainView extends GetView<AdminMainController> {
             selectedLabelStyle: TextStyle(color: Colors.black),
             unselectedLabelStyle: TextStyle(color: Colors.black),
             showUnselectedLabels: true,
-            selectedItemColor: Colors.blue,
+            selectedItemColor: Color(0xFF2E9E95),
             unselectedItemColor: Colors.blueGrey,
             currentIndex: controller.currentIndex.value,
             onTap: (index) {
@@ -29,22 +29,22 @@ class AdminMainView extends GetView<AdminMainController> {
                   label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.category,
-                  ),
-                  label: 'Categories'),
-              BottomNavigationBarItem(
-                  icon: Icon(
                     Icons.list,
                   ),
                   label: 'Bookings'),
               BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.person,
+                    Icons.bike_scooter,
                   ),
-                  label: 'User'),
+                  label: 'My Vehicles'),
               BottomNavigationBarItem(
                   icon: Icon(
                     Icons.person,
+                  ),
+                  label: 'Users'),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.account_box,
                   ),
                   label: 'Profile'),
             ]),

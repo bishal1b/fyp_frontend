@@ -9,9 +9,10 @@ import 'package:rental/utils/memory.dart';
 
 class AddVehicleController extends GetxController {
   var titleController = TextEditingController();
+  var plateNumberController = TextEditingController();
   var descriptionController = TextEditingController();
   var priceController = TextEditingController();
-  var noOfSeatsController = TextEditingController();
+  var modelController = TextEditingController();
   var key = GlobalKey<FormState>();
 
   bool isImageError = false;
@@ -52,9 +53,10 @@ class AddVehicleController extends GetxController {
         var request = http.MultipartRequest("POST", url);
 
         request.fields['title'] = titleController.text;
+        request.fields['plate_number'] = plateNumberController.text;
         request.fields['description'] = descriptionController.text;
         request.fields['per_day_price'] = priceController.text;
-        request.fields['no_of_seats'] = noOfSeatsController.text;
+        request.fields['model'] = modelController.text;
         request.fields['category_id'] = selectedCategoryId!;
         request.fields['token'] = Memory.getToken()!;
 

@@ -8,6 +8,7 @@ import '../controllers/edit_profile_controller.dart';
 
 class EditProfileView extends GetView<EditProfileController> {
   final User user = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,6 +16,7 @@ class EditProfileView extends GetView<EditProfileController> {
       appBar: AppBar(
         title: Text('Edit Profile'),
         centerTitle: true,
+        backgroundColor: Color(0xFF2E9E95), // Adjust app bar color
       ),
       body: SingleChildScrollView(
         child: GetBuilder<EditProfileController>(
@@ -23,6 +25,8 @@ class EditProfileView extends GetView<EditProfileController> {
             child: Form(
               key: controller.formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment
+                    .center, // Align form elements at the center
                 children: [
                   SizedBox(
                     height: 40,
@@ -31,6 +35,8 @@ class EditProfileView extends GetView<EditProfileController> {
                     children: [
                       CircleAvatar(
                         radius: 60,
+                        backgroundColor:
+                            Colors.white, // Add white background to the avatar
                         child: controller.imageBytes != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(60),
@@ -61,11 +67,12 @@ class EditProfileView extends GetView<EditProfileController> {
                         right: 0,
                         child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.grey,
-                              )),
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                          ),
                           child: IconButton(
                             onPressed: () {
                               controller.onImagePick();

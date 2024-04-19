@@ -19,6 +19,16 @@ abstract class Routes {
   static const VEHICLE = _Paths.VEHICLE;
   static const VEHICLE_BY_CATEGORY = _Paths.VEHICLE_BY_CATEGORY;
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
+  static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
+  static const VERIFY_CODE = _Paths.VERIFY_CODE;
+  static const CHANGE_PASSWORD = _Paths.CHANGE_PASSWORD;
+  static const MY_VEHICLES = _Paths.MY_VEHICLES;
+  static const BOOKING_DETAIL = _Paths.BOOKING_DETAIL;
+  static const USER_DETAIL = _Paths.USER_DETAIL;
+  static const PAYMENT_DETAIL = _Paths.PAYMENT_DETAIL;
+  static const GPS_TRACKING = _Paths.GPS_TRACKING;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
+  static const EDIT_VEHICLE = _Paths.EDIT_VEHICLE;
 }
 
 abstract class _Paths {
@@ -39,4 +49,14 @@ abstract class _Paths {
   static const VEHICLE = '/vehicle';
   static const VEHICLE_BY_CATEGORY = '/vehicle-by-category';
   static const EDIT_PROFILE = '/edit-profile';
+  static const FORGET_PASSWORD = '/forget-password';
+  static const VERIFY_CODE = '/verify-code';
+  static const CHANGE_PASSWORD = '/change-password';
+  static const MY_VEHICLES = '/my-vehicles';
+  static const BOOKING_DETAIL = '/booking-detail';
+  static const USER_DETAIL = '/user-detail';
+  static const PAYMENT_DETAIL = '/payment-detail';
+  static const GPS_TRACKING = '/gps-tracking';
+  static const SPLASH_SCREEN = '/splash-screen';
+  static const EDIT_VEHICLE = '/edit-vehicle';
 }

@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/main_controller.dart';
 
 class MainView extends GetView<MainController> {
   const MainView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
         body: controller.screens[controller.currentIndex.value],
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, -3),
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
             selectedLabelStyle: TextStyle(color: Colors.black),
             unselectedLabelStyle: TextStyle(color: Colors.black),
             showUnselectedLabels: true,
@@ -23,26 +38,32 @@ class MainView extends GetView<MainController> {
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                  ),
-                  label: 'Home'),
+                icon: Icon(
+                  Icons.home,
+                ),
+                label: 'Home',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.search,
-                  ),
-                  label: 'Bikes'),
+                icon: Icon(
+                  Icons.search,
+                ),
+                label: 'Bikes',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.book_online,
-                  ),
-                  label: 'Booking'),
+                icon: Icon(
+                  Icons.book_online,
+                ),
+                label: 'Booking',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.menu,
-                  ),
-                  label: 'Menu'),
-            ]),
+                icon: Icon(
+                  Icons.account_box,
+                ),
+                label: 'Profile',
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

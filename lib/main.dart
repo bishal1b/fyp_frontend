@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:rental/utils/memory.dart';
 
 import 'app/routes/app_pages.dart';
@@ -21,14 +22,19 @@ void main() async {
           Locale('en', 'US'),
           Locale('ne', 'NP'),
         ],
-        localizationsDelegates: const [KhaltiLocalizations.delegate],
+        localizationsDelegates: const [
+          KhaltiLocalizations.delegate,
+          MonthYearPickerLocalizations.delegate
+        ],
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          scaffoldBackgroundColor: Color.fromARGB(255, 234, 240, 235),
           appBarTheme: AppBarTheme(
             backgroundColor: Color(0xFF2E9E95),
           ),
           useMaterial3: false,
         ),
+        defaultTransition: Transition.cupertino,
         title: "Application",
         initialRoute: token == null
             ? Routes.LOGIN

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:rental/app/components/mybutton.dart';
 import 'package:rental/app/models/vehicle.dart';
 import 'package:rental/utils/constant.dart';
+import 'package:rental/utils/memory.dart';
 
 import '../controllers/vehicle_detail_controller.dart';
 
@@ -32,7 +33,7 @@ class VehicleDetailView extends GetView<VehicleDetailController> {
               aspectRatio: 16 / 9,
               child: Image.network(
                 getImageUrl(vehicle.imageUrl ?? ''),
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
             Padding(
@@ -90,8 +91,7 @@ class VehicleDetailView extends GetView<VehicleDetailController> {
                       SizedBox(width: 4),
                       Text(
                         'Per day price (in Rs): ${vehicle.perDayPrice ?? ''}',
-                        style:
-                            TextStyle(fontSize: 18, color: Color(0xFF2E9E95)),
+                        style: TextStyle(fontSize: 18, color: Colors.blueGrey),
                       ),
                     ],
                   ),
@@ -100,21 +100,36 @@ class VehicleDetailView extends GetView<VehicleDetailController> {
                     children: [
                       SizedBox(width: 4),
                       Text(
-                        'Model: ${vehicle.noOfSeats ?? ''}',
-                        style:
-                            TextStyle(fontSize: 18, color: Color(0xFF2E9E95)),
+                        'Model: ${vehicle.model ?? ''}',
+                        style: TextStyle(fontSize: 18, color: Colors.blueGrey),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      SizedBox(width: 4),
+                      Text(
+                        'Plate Number: ${vehicle.plateNumber ?? ''}',
+                        style: TextStyle(fontSize: 18, color: Colors.blueGrey),
                       ),
                     ],
                   ),
                   SizedBox(height: 12),
-                  Text(
-                    'Description:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      'Description:',
+                      style: TextStyle(fontSize: 18, color: Colors.blueGrey),
+                    ),
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    vehicle.description ?? '',
-                    style: TextStyle(fontSize: 16),
+                  SizedBox(height: 1),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Text(
+                      vehicle.description ?? '',
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
                   SizedBox(height: 20),
                   // Rating Widget
@@ -124,18 +139,21 @@ class VehicleDetailView extends GetView<VehicleDetailController> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.all(16),
-        child: MyButton(
-          text: 'Book Now',
-          onPressed: () async {
-            controller.dateTimeRange = await showDateRangePicker(
-              context: context,
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(Duration(days: 30)),
-            );
-            controller.makeBooking(vehicle.vehicleId ?? '');
-          },
+      bottomNavigationBar: Visibility(
+        visible: Memory.getRole() == 'user',
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: MyButton(
+            text: 'Book Now',
+            onPressed: () async {
+              controller.dateTimeRange = await showDateRangePicker(
+                context: context,
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now().add(Duration(days: 30)),
+              );
+              controller.makeBooking(vehicle.vehicleId ?? '');
+            },
+          ),
         ),
       ),
     );

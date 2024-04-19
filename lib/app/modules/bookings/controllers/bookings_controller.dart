@@ -18,7 +18,7 @@ class BookingsController extends GetxController {
     getBookings();
   }
 
-  void getBookings() async {
+  Future<void> getBookings() async {
     try {
       var url = Uri.http(ipAddress, 'rental/getBookings.php');
 
@@ -72,6 +72,42 @@ class BookingsController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to give rating',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  void cancelBooking(String bookingId) async {
+    try {
+      var url = Uri.http(ipAddress, 'rental/cancelBookings.php');
+
+      var response = await http.post(url,
+          body: {'token': Memory.getToken(), 'booking_id': bookingId});
+      var result = jsonDecode(response.body);
+
+      if (result['success']) {
+        Get.snackbar(
+          'Cancel Booking',
+          result['message'],
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        getBookings();
+        Get.close(1);
+        update();
+      } else {
+        Get.snackbar(
+          'Error',
+          result['message'],
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to cancel booking',
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );

@@ -63,12 +63,50 @@ class VehicleView extends GetView<VehicleController> {
                       height: 10,
                     ),
                     Text(
-                      'Recommended Vehicles',
+                      'Recommended for you',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Sort by : ',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        DropdownButton(
+                            value: controller.selectedFilter,
+                            items: [
+                              DropdownMenuItem(
+                                child: Text('All'),
+                                value: 'All',
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Price Low to High'),
+                                value: 'priceLowToHigh',
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Price High to Low'),
+                                value: 'priceHighToLow',
+                              ),
+                              DropdownMenuItem(
+                                child: Text('Rating High to Low'),
+                                value: 'ratingHighToLow',
+                              ),
+                            ],
+                            onChanged: (v) {
+                              controller.selectedFilter = v.toString();
+                              controller.getVehicles();
+                            }),
+                      ],
+                    ),
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
